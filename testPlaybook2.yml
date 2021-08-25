@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  connection: local
+  collections:
+   - azure.azcollection
+  tasks:
+  - name: Creating resource group
+    azure_rm_resourcegroup:
+      name: "test-rg-ansible-TLH"
+      location: "East US"
+  - name: Deploying ARM template
+    azure_rm_deployment:
+      state: present
+      resource_group_name: test-rg-ansible-TLH
+      name: TestDeployment
+      location: East US
+      template: "{{ lookup('file', 'ARM3.json') }}"
+      
+#parameters: "{{ lookup('file', 'ARM-parameters.json') }}"
